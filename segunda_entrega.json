@@ -1,0 +1,779 @@
+{
+	"jobConfig": {
+		"name": "projeto1",
+		"description": "",
+		"role": "arn:aws:iam::638026687251:role/LabRole",
+		"command": "glueetl",
+		"version": "4.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 2,
+		"maxCapacity": 2,
+		"maxRetries": 0,
+		"timeout": 2880,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "projeto1.py",
+		"scriptLocation": "s3://aws-glue-assets-638026687251-us-east-1/scripts/",
+		"language": "python-3",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2023-08-05T20:34:42.551Z",
+		"developerMode": false,
+		"connectionsList": [],
+		"temporaryDirectory": "s3://aws-glue-assets-638026687251-us-east-1/temporary/",
+		"logging": true,
+		"glueHiveMetastore": true,
+		"etlAutoTuning": false,
+		"metrics": true,
+		"spark": true,
+		"pythonPath": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_common.py,s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_split.py,s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_explode.py",
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-638026687251-us-east-1/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null
+	},
+	"dag": {
+		"node-1691276968196": {
+			"nodeId": "node-1691276968196",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-2"
+			],
+			"name": "Split String",
+			"generatedNodeName": "SplitString_node1691276968196",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"nome"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "pattern",
+					"value": [
+						" - "
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_split",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_split.py",
+			"version": "1.0.0",
+			"transformName": "gs_split",
+			"outputSchemas": null,
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691274064933": {
+			"nodeId": "node-1691274064933",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691616212466"
+			],
+			"name": "Amazon S3",
+			"generatedNodeName": "AmazonS3_node1691274064933",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "json",
+			"compression": "none",
+			"path": "s3://s638026687251/output/",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": true,
+				"updateBehavior": "UPDATE_IN_DATABASE",
+				"database": "projeto1",
+				"table": "resultados"
+			},
+			"updateCatalogOptions": "schemaAndPartitions",
+			"calculatedType": ""
+		},
+		"node-1691272612194": {
+			"nodeId": "node-1691272612194",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691278052459"
+			],
+			"name": "Schema reclamaçoes",
+			"generatedNodeName": "Schemareclamaoes_node1691272612194",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "ano",
+					"fromPath": [
+						"ano"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "trimestre",
+					"fromPath": [
+						"trimestre"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "categoria",
+					"fromPath": [
+						"categoria"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "tipo",
+					"fromPath": [
+						"tipo"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "cnpj_rec",
+					"fromPath": [
+						"cnpjif"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "instituição financeira",
+					"fromPath": [
+						"instituição financeira"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "Índice de reclamações",
+					"fromPath": [
+						"índice"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "quantidade de reclamações reguladas procedentes",
+					"fromPath": [
+						"quantidade de reclamações reguladas procedentes"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "quantidade de reclamações reguladas - outras",
+					"fromPath": [
+						"quantidade de reclamações reguladas - outras"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "quantidade de reclamações não reguladas",
+					"fromPath": [
+						"quantidade de reclamações não reguladas"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "Quantidade total de reclamações",
+					"fromPath": [
+						"quantidade total de reclamações"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "Quantidade de Clientes do Bancos",
+					"fromPath": [
+						"quantidade total de clientes – ccs e scr"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "quantidade de clientes – ccs",
+					"fromPath": [
+						"quantidade de clientes – ccs"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "quantidade de clientes – scr",
+					"fromPath": [
+						"quantidade de clientes – scr"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691267688249": {
+			"nodeId": "node-1691267688249",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691277851640",
+				"node-1691272612194"
+			],
+			"name": "Join1",
+			"generatedNodeName": "Join1_node1691267688249",
+			"classification": "Transform",
+			"type": "Join",
+			"joinType": "equijoin",
+			"columns": [
+				{
+					"from": "node-1691277851640",
+					"keys": [
+						"cnpj"
+					]
+				},
+				{
+					"from": "node-1691272612194",
+					"keys": [
+						"cnpj_rec"
+					]
+				}
+			],
+			"columnConditions": [
+				"="
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691277417099": {
+			"nodeId": "node-1691277417099",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691276968196"
+			],
+			"name": "Explode Array Or Map Into Rows",
+			"generatedNodeName": "ExplodeArrayOrMapIntoRows_node1691277417099",
+			"classification": "Transform",
+			"type": "DynamicTransform",
+			"parameters": [
+				{
+					"name": "colName",
+					"value": [
+						"nome"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				},
+				{
+					"name": "newCol",
+					"value": [
+						"nome"
+					],
+					"isOptional": false,
+					"type": "str",
+					"listType": null
+				}
+			],
+			"functionName": "gs_explode",
+			"path": "s3://aws-glue-studio-transforms-510798373988-prod-us-east-1/gs_explode.py",
+			"version": "1.0.0",
+			"transformName": "gs_explode",
+			"outputSchemas": null,
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691277851640": {
+			"nodeId": "node-1691277851640",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691277417099"
+			],
+			"name": "Drop Duplicates dados",
+			"generatedNodeName": "DropDuplicatesdados_node1691277851640",
+			"classification": "Transform",
+			"type": "DropDuplicates",
+			"parentsValid": true,
+			"calculatedType": "",
+			"columns": [
+				"Classificação do Banco",
+				"cnpj"
+			],
+			"codeGenVersion": 2
+		},
+		"node-1691265041465": {
+			"nodeId": "node-1691265041465",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "dados empregados",
+			"generatedNodeName": "dadosempregados_node1691265041465",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": true,
+			"database": "projeto1",
+			"table": "input_empregados",
+			"partitionPredicate": "",
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"boundedOption": null
+			},
+			"calculatedType": "CatalogS3DataSource",
+			"codeGenVersion": 2
+		},
+		"node-1": {
+			"nodeId": "node-1",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "dados bancos",
+			"generatedNodeName": "dadosbancos_node1",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": true,
+			"database": "projeto1",
+			"table": "input_bancos",
+			"partitionPredicate": "",
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"boundedOption": null
+			},
+			"calculatedType": "CatalogS3DataSource",
+			"codeGenVersion": 2
+		},
+		"node-2": {
+			"nodeId": "node-2",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1"
+			],
+			"name": "schema dados",
+			"generatedNodeName": "schemadados_node2",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "Classificação do Banco",
+					"fromPath": [
+						"segmento"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "cnpj",
+					"fromPath": [
+						"cnpj"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nome",
+					"fromPath": [
+						"nome"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691278052459": {
+			"nodeId": "node-1691278052459",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "dados reclamações",
+			"generatedNodeName": "dadosreclamaes_node1691278052459",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": true,
+			"database": "projeto1",
+			"table": "input_reclama__es",
+			"partitionPredicate": "",
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"boundedOption": null
+			},
+			"calculatedType": "CatalogS3DataSource",
+			"codeGenVersion": 2
+		},
+		"node-1691275845967": {
+			"nodeId": "node-1691275845967",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691265255600",
+				"node-1691267688249"
+			],
+			"name": "Join2",
+			"generatedNodeName": "Join2_node1691275845967",
+			"classification": "Transform",
+			"type": "Join",
+			"joinType": "equijoin",
+			"columns": [
+				{
+					"from": "node-1691265255600",
+					"keys": [
+						"nome_bancoCaps"
+					]
+				},
+				{
+					"from": "node-1691267688249",
+					"keys": [
+						"nome"
+					]
+				}
+			],
+			"columnConditions": [
+				"="
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691265255600": {
+			"nodeId": "node-1691265255600",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691265041465"
+			],
+			"name": "Schema empregados",
+			"generatedNodeName": "Schemaempregados_node1691265255600",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "nome_banco",
+					"fromPath": [
+						"employer_name"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "reviews_contagem",
+					"fromPath": [
+						"reviews_count"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "culture_contagem",
+					"fromPath": [
+						"culture_count"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "salaries_count",
+					"fromPath": [
+						"salaries_count"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "benefits_count",
+					"fromPath": [
+						"benefits_count"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employer-website",
+					"fromPath": [
+						"employer-website"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employer-headquarters",
+					"fromPath": [
+						"employer-headquarters"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employer-founded",
+					"fromPath": [
+						"employer-founded"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employer-industry",
+					"fromPath": [
+						"employer-industry"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employer-revenue",
+					"fromPath": [
+						"employer-revenue"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "url",
+					"fromPath": [
+						"url"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "Índice de satisfação dos funcionários dos bancos",
+					"fromPath": [
+						"geral"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "cultura e valores",
+					"fromPath": [
+						"cultura e valores"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "diversidade e inclusão",
+					"fromPath": [
+						"diversidade e inclusão"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "qualidade de vida",
+					"fromPath": [
+						"qualidade de vida"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "alta liderança",
+					"fromPath": [
+						"alta liderança"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "Índice de satisfação com salários dos funcionários dos bancos",
+					"fromPath": [
+						"remuneração e benefícios"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "oportunidades de carreira",
+					"fromPath": [
+						"oportunidades de carreira"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "recomendam para outras pessoas(%)",
+					"fromPath": [
+						"recomendam para outras pessoas(%)"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "perspectiva positiva da empresa(%)",
+					"fromPath": [
+						"perspectiva positiva da empresa(%)"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "cnpj empregados",
+					"fromPath": [
+						"cnpj"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "nome_bancoCaps",
+					"fromPath": [
+						"nome"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "match_percent",
+					"fromPath": [
+						"match_percent"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "Classificação do Banco emp",
+					"fromPath": [
+						"segmento"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1691616212466": {
+			"nodeId": "node-1691616212466",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1691275845967"
+			],
+			"name": "Drop Fields",
+			"generatedNodeName": "DropFields_node1691616212466",
+			"classification": "Transform",
+			"type": "DropFields",
+			"paths": [
+				"cnpj empregados",
+				"nome_bancoCaps",
+				"nome",
+				"cnpj_rec",
+				"instituição financeira",
+				"Classificação do Banco emp"
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false
+}
